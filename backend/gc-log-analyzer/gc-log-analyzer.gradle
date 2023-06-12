@@ -10,6 +10,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0
  ********************************************************************************/
+
 plugins {
     id 'java-library'
 }
@@ -23,3 +24,9 @@ dependencies {
     testImplementation group: 'io.vertx', name: 'vertx-unit', version: "${vertx_version}"
 }
 
+task fatJar(type: Jar) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
